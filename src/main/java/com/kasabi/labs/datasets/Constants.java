@@ -21,10 +21,11 @@ package com.kasabi.labs.datasets;
 public class Constants {
 
 	public static final String DATA_PATH = "data/" ;
-	public static final String DATA_GEONAMES_PATH = "data/geonames/" ;
-	public static final String DATA_EUROSTAT_PATH = "data/eurostat/" ;
-	public static final String DATA_ISO_3166_2_PATH = "data/iso-3166-2/" ;
-	public static final String QUERIES_PATH = "data/queries/" ;
-	public static final String VOCABULARIES_PATH = "data/vocabularies/" ;
-	
+	public static final String DATA_ITALY_PATH = DATA_PATH + "italy/" ;
+	public static final String DATA_GEONAMES_PATH = DATA_PATH + "geonames/" ;
+	public static final String DATA_EUROSTAT_PATH = DATA_PATH + "eurostat/" ;
+	public static final String DATA_ISO_3166_2_PATH = DATA_PATH + "iso-3166-2/" ;
+	public static final String QUERIES_PATH = DATA_PATH + "queries/" ;
+	public static final String VOCABULARIES_PATH = DATA_PATH + "vocabularies/" ;
+
 }

@@ -113,12 +113,14 @@ public class Utils {
 
 	public static void merge ( Model model, File[] files ) {
 		for ( File file : files ) {
+			log.debug("Merging {} ...", file.getAbsolutePath()) ;
 			FileManager.get().readModel(model, file.getAbsolutePath()) ;
 		}
 	}
 
 	public static void remove ( Model model, File[] files ) {
 		for ( File file : files ) {
+			log.debug("Removing {} ...", file.getAbsolutePath()) ;
 			Model m = FileManager.get().loadModel(file.getAbsolutePath()) ;
 			model.remove(m) ;
 		}

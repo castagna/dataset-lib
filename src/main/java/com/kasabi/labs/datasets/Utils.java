@@ -62,6 +62,20 @@ public class Utils {
 		return results;
 	}
 	
+	public static Model describe ( Model data, String uri ) {
+		Query q = QueryFactory.create("DESCRIBE <" + uri + ">");
+		QueryExecution qexec = QueryExecutionFactory.create(q, data);
+		
+		
+		Model result = null;
+		try {
+			result = qexec.execDescribe();
+		} finally {
+			qexec.close();
+		}
+		return result;
+	}
+	
 	public static void render ( File[] load, File query, Writer writer ) {
 		ResultSet results = select ( load, query ) ;
 		VelocityEngine ve = new VelocityEngine();

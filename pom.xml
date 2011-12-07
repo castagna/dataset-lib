@@ -67,10 +67,10 @@ under the License.
       <id>talis-releases</id>
       <url>http://oss.talisplatform.com/content/repositories/talis-releases</url>
     </repository>
-    <snapshotRepository>
+    <repository>
       <id>talis-snapshots</id>
       <url>http://oss.talisplatform.com/content/repositories/talis-snapshots</url>
-    </snapshotRepository>
+    </repository>
   </repositories>
 
 </project>

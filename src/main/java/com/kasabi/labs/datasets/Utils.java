@@ -204,7 +204,7 @@ public class Utils {
 	}
 	
 	private static boolean _validate ( File file ) {
-		System.out.println ("Validating " + file.getAbsolutePath() + " ...");
+		log.debug ("Validating {} ...", file.getAbsolutePath());
 		try {
 			riotcmd.riot.main("--validate", file.getAbsolutePath());
 			return true ;

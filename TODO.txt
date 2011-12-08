@@ -1,0 +1,6 @@
+TODO
+====
+
+ - Fix Utils.validate()... it does not work properly... it must return false
+   if one or more files fail to validate (it's useful to continue when an
+   error is found and continue to log messages).

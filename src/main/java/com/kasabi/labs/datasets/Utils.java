@@ -25,7 +25,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -33,7 +35,6 @@ import java.util.regex.Pattern;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.openjena.riot.RiotException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,7 @@ import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.query.ResultSetRewindable;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.shared.JenaException;
 import com.hp.hpl.jena.util.FileManager;
 
 public class Utils {
@@ -69,8 +71,6 @@ public class Utils {
 	public static Model describe ( Model data, String uri ) {
 		Query q = QueryFactory.create("DESCRIBE <" + uri + ">");
 		QueryExecution qexec = QueryExecutionFactory.create(q, data);
-		
-		
 		Model result = null;
 		try {
 			result = qexec.execDescribe();
@@ -189,31 +189,38 @@ public class Utils {
 			return extensions.contains(extension);
 		}
 	};
-	
+
 	public static boolean validate ( File path ) {
+		List<File> files = new ArrayList<File>();
+		listFiles ( path, files );
 		boolean result = true ;
-		if ( path.isDirectory() ) {
-			File[] files = path.listFiles(filter);
-			for (File file : files) {
-				if ( file.isDirectory() ) {
-					validate ( file );
-				} else {
-					if (!_validate ( file )) result = false;
-				}
+		for (File file : files) {
+			log.debug ("Validating {} ...", file.getAbsolutePath());
+			// FIXME: this does not work!
+			// int code = new riot(new String[]{"--validate", file.getAbsolutePath()}).mainRun(false, false);
+			// if ( code != 0 ) result = false ;
+			try {
+				FileManager.get().loadModel(file.getAbsolutePath());
+			} catch (JenaException e) {
+				log.debug("{} is not valid: {}", file.getAbsolutePath(), e.getMessage());
+				result = false ;
 			}
-		} else {
-			if (!_validate ( path )) result = false;
 		}
 		return result ;
 	}
-	
-	private static boolean _validate ( File file ) {
-		log.debug ("Validating {} ...", file.getAbsolutePath());
-		try {
-			riotcmd.riot.main("--validate", file.getAbsolutePath());
-			return true ;
-		} catch ( RiotException e ) {
-			return false ;
+
+	private static void listFiles ( File path, List<File> files ) {
+		if ( path.isDirectory() ) {
+			File[] fs = path.listFiles(filter);
+			for (File file : fs) {
+				if ( file.isDirectory() ) {
+					listFiles(file, files);
+				} else {
+					files.add(file);
+				}
+			}
+		} else {
+			files.add(path);
 		}
 	}
 
@@ -233,5 +240,11 @@ public class Utils {
 		String slug = NONLATIN.matcher(normalized).replaceAll("");
 		return slug.toLowerCase(Locale.ENGLISH);
 	}
-    
+	
+}
+
+class riot extends riotcmd.riot {
+	public riot(String[] argv) {
+		super(argv);
+	}		
 }

@@ -85,7 +85,7 @@ public class Utils {
 		VelocityEngine ve = new VelocityEngine();
 		ve.setProperty("file.resource.loader.path", query.getParentFile().getAbsolutePath()) ;
 		ve.init();
-		Template t = ve.getTemplate(extension ( query.getName(), "template" ) );
+		Template t = ve.getTemplate(extension ( query.getName(), "template" ), "UTF-8" );
 		VelocityContext context = new VelocityContext();
 		context.put("resultset", results);
 		context.put("formatter", new String());
@@ -152,7 +152,7 @@ public class Utils {
 				VelocityEngine ve = new VelocityEngine();
 				ve.setProperty("file.resource.loader.path", query.getParentFile().getAbsolutePath()) ;
 				ve.init();
-				Template t = ve.getTemplate(template.getName());
+				Template t = ve.getTemplate(template.getName(), "UTF-8");
 				VelocityContext context = new VelocityContext();
 				context.put("query", query.getName());
 				FileWriter writer = new FileWriter(output);

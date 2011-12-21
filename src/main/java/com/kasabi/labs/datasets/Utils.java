@@ -83,6 +83,7 @@ public class Utils {
 	public static void render ( File[] load, File query, Writer writer ) {
 		ResultSet results = select ( load, query ) ;
 		VelocityEngine ve = new VelocityEngine();
+		ve.setProperty("directive.set.null.allowed", true);
 		ve.setProperty("file.resource.loader.path", query.getParentFile().getAbsolutePath()) ;
 		ve.init();
 		Template t = ve.getTemplate(extension ( query.getName(), "template" ), "UTF-8" );
@@ -150,6 +151,7 @@ public class Utils {
 				File template = new File (query.getParentFile(), "sparql.vm") ;
 				File output = new File (query.getParentFile(), extension ( query.getName(), "rq") ) ;
 				VelocityEngine ve = new VelocityEngine();
+				ve.setProperty("directive.set.null.allowed", true);
 				ve.setProperty("file.resource.loader.path", query.getParentFile().getAbsolutePath()) ;
 				ve.init();
 				Template t = ve.getTemplate(template.getName(), "UTF-8");

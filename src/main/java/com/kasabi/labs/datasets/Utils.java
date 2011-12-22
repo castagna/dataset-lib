@@ -123,9 +123,10 @@ public class Utils {
 		for ( File file : files ) {
 			log.debug("Loading {} ...", file.getAbsolutePath()) ;
 			long start = System.currentTimeMillis() ;
+			long size = model.size() ;
 			FileManager.get().readModel(model, file.getAbsolutePath()) ;
 			long stop = System.currentTimeMillis() ;
-			log.debug("Loaded {} triples in {} ms.", model.size(), (stop-start));
+			log.debug("Loaded {} triples in {} ms.", model.size() - size, (stop-start));
 		}
 		return model ;
 	}
